@@ -8,6 +8,7 @@ export interface FetchNotesParams {
     search?: string;
     page?: number;
     perPage?: number;
+    tag?: string;
 }
 
 
@@ -20,12 +21,13 @@ export interface FetchNotesResponse {
     
 }
 
-export const fetchNotes = async ({ search, page = 1, perPage=12}:FetchNotesParams): Promise<FetchNotesResponse> => {
+export const fetchNotes = async ({ search, page = 1, perPage=12, tag}:FetchNotesParams): Promise<FetchNotesResponse> => {
  const config = {
         params: {
             page,
             perPage,
-            ...( search && { search }), 
+         ...(search && { search }), 
+        ...(tag && tag !== "All" ? { tag } : {})
     },
         headers: {
             Authorization: `Bearer ${myKey}`
